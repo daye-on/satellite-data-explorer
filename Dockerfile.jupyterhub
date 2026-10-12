@@ -1,0 +1,32 @@
+FROM jupyterhub/jupyterhub
+
+RUN apt-get update \
+    && apt-get install -y \
+        python3 \
+        python3-pip \
+        git
+
+RUN python3 -m pip install --no-cache-dir \
+    jupyterhub \
+    notebook \
+    jupyterlab \
+    datacube \
+    psycopg2-binary \
+    botocore \
+    odc-ui \
+    folium \
+    geopandas \
+    pystac_client \
+    matplotlib \
+    mapclassify \
+
+RUN npm cache verify \
+    && npm install -g n \
+    && n stable \
+    && hash -r \
+    && npm install -g configurable-http-proxy
+
+COPY nativeauthenticator .
+RUN pip3 install --no-cache-dir -e .
+
+CMD ["jupyterhub", "-f", "/srv/jupyterhub/jupyterhub_config.py"]

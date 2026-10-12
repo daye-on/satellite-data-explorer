@@ -1,0 +1,50 @@
+services:
+  # Start docker container for PostgreSQL to mock RDS
+  postgres:
+    hostname: postgres
+    image: postgres:15-alpine
+    restart: no
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_PASSWORD: opendatacubepassword
+    container_name: postgres
+    networks:
+      - jupyterhub-network
+    #restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h postgres -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./volume/postgresql:/var/lib/postgresql/data:Z
+
+  jupyterhub:
+    build:
+      context: .
+      dockerfile: Dockerfile.jupyterhub
+    #restart: always
+    image: jupyterhub/jupyterhub
+    environment:
+      - DB_HOSTNAME=postgres
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=opendatacubepassword
+      - DB_DATABASE=postgres
+      - DB_PORT=5432
+    container_name: jupyterhub
+    networks:
+      - jupyterhub-network
+    volumes:
+      - "./volume/jupyterhub:/volume/jupyterhub"
+      - "./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py"
+      # - "./volume/notebook:/home"
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+networks:
+  jupyterhub-network:
+    name: jupyterhub-network

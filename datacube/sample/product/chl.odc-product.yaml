@@ -1,0 +1,20 @@
+---
+name: chl_product
+description: chl product test 1
+metadata_type: eo3
+
+metadata:
+  product:
+    name: chl_product
+
+measurements:
+  - name: merged_daily_Chl
+    dtype: float32
+    nodata: -999
+    units: mg/m^3
+
+load:
+  crs: EPSG:4326
+  resolution:
+    x: 0.03
+    y: 0.03

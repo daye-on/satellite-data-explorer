@@ -1,0 +1,40 @@
+$schema: https://schemas.opendatacube.org/dataset
+crs: EPSG:4326
+geometry:
+  coordinates:
+  - - - 38.20000076293945
+      - -10.0
+    - - 43.0
+      - -10.0
+    - - 43.0
+      - -4.800000190734863
+    - - 38.20000076293945
+      - -4.800000190734863
+    - - 38.20000076293945
+      - -10.0
+  type: Polygon
+grids:
+  default:
+    shape:
+    - 250601
+    - 250601
+    transform:
+    - 0.009998321533203125
+    - 0.0
+    - 38.20000076293945
+    - 0.0
+    - 0.0
+    - -4.800000190734863
+    - 0.0
+    - 0.0
+    - 1.0
+id: d5674fa7-54ea-55ae-b129-bc9fc47be332
+lineage: {}
+measurements:
+  merged_daily_Chl:
+    path: https://example.com/UST21_L3_Merged-Chla-1D_20260102.nc
+product:
+  name: chl_product
+properties:
+  datetime: '2026-07-02T16:16:50Z'
+  odc:processing_datetime: '2026-07-02T16:16:50Z'
